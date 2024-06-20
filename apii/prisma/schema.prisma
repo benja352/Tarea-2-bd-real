@@ -8,20 +8,86 @@ datasource db {
 }
 
 model Usuario {
-  id          Int      @id @default(autoincrement())
-  nombre      String
-  correo      String   @unique
-  clave       String
-  descripcion String?
-  correos     Correo[] 
+  id                Int       @id @default(autoincrement())
+  nombre            String
+  correo            String    @unique
+  clave             String
+  descripcion       String?
+  fechaCreacion     DateTime  @default(now())
+  fuentePreferida   String?
+  correosEnviados   Correo[]  @relation("enviados")
+  correosRecibidos  Correo[]  @relation("recibidos")
+  direccionesBloqueadas DireccionBloqueada[]
+  direccionesFavoritas  DireccionFavorita[]
+  temasCreados      TemaCorreo[]
+  publicidades      Publicidad[]
 }
 
 model Correo {
-  id          Int      @id @default(autoincrement())
-  remitente   String
-  destinatario String
-  asunto      String
-  mensaje     String
-  usuarioId   Int
-  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  remitenteId          Int
+  destinatarioId       Int
+  asunto               String
+  cuerpo               String
+  fechaEnvio           DateTime  @default(now())
+  leido                Boolean   @default(false)
+  esFavorito           Boolean   @default(false)
+  colorFondo           String?
+  nombreAnimacion      String?
+  duracionAnimacion    Int?
+  contenidoAnuncio     String?
+  fechaMostradoAnuncio DateTime?
+  nombreEstiloFirma    String?
+  fuenteFirma          String?
+  remitente            Usuario   @relation("enviados", fields: [remitenteId], references: [id])
+  destinatario         Usuario   @relation("recibidos", fields: [destinatarioId], references: [id])
+}
+
+model DireccionBloqueada {
+  id                 Int      @id @default(autoincrement())
+  usuarioId          Int
+  direccionBloqueada String
+  fechaBloqueo       DateTime @default(now())
+  usuario            Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model DireccionFavorita {
+  id                 Int      @id @default(autoincrement())
+  usuarioId          Int
+  direccionFavorita  String
+  fechaAgregado      DateTime @default(now())
+  categoria          String?
+  usuario            Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model TemaCorreo {
+  id                 Int      @id @default(autoincrement())
+  nombreTema         String
+  usuarioCreadorId   Int
+  usuarioCreador     Usuario  @relation(fields: [usuarioCreadorId], references: [id])
+}
+
+model Publicidad {
+  id                 Int      @id @default(autoincrement())
+  contenidoAnuncio   String
+  fechaMostrado      DateTime @default(now())
+  usuarioId          Int
+  usuario            Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model PluginCorreo {
+  id                Int      @id @default(autoincrement())
+  nombrePlugin      String
+  correosAfectados  String
+  idiomasSoportados String
+  estiloFirmaId     Int
+  estiloFirma       EstiloFirma @relation(fields: [estiloFirmaId], references: [id])
+}
+
+model EstiloFirma {
+  id            Int      @id @default(autoincrement())
+  nombreEstilo  String
+  fuente        String
+  correoId      Int
+  correo        Correo   @relation(fields: [correoId], references: [id])
 }
