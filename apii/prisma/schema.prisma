@@ -8,19 +8,16 @@ datasource db {
 }
 
 model Usuario {
-  id                Int       @id @default(autoincrement())
-  nombre            String
-  correo            String    @unique
-  clave             String
-  descripcion       String?
-  fechaCreacion     DateTime  @default(now())
-  fuentePreferida   String?
-  correosEnviados   Correo[]  @relation("enviados")
-  correosRecibidos  Correo[]  @relation("recibidos")
+  id                   Int                   @id @default(autoincrement())
+  nombre               String
+  correo               String                @unique
+  clave                String
+  descripcion          String?
+  fechaCreacion        DateTime              @default(now())
+  correosEnviados      Correo[]              @relation("correosEnviados")
+  correosRecibidos     Correo[]              @relation("correosRecibidos")
   direccionesBloqueadas DireccionBloqueada[]
   direccionesFavoritas  DireccionFavorita[]
-  temasCreados      TemaCorreo[]
-  publicidades      Publicidad[]
 }
 
 model Correo {
@@ -37,10 +34,12 @@ model Correo {
   duracionAnimacion    Int?
   contenidoAnuncio     String?
   fechaMostradoAnuncio DateTime?
-  nombreEstiloFirma    String?
-  fuenteFirma          String?
-  remitente            Usuario   @relation("enviados", fields: [remitenteId], references: [id])
-  destinatario         Usuario   @relation("recibidos", fields: [destinatarioId], references: [id])
+  estiloFirmaId        Int?      @unique
+  temaId               Int?
+  remitente            Usuario   @relation("correosEnviados", fields: [remitenteId], references: [id])
+  destinatario         Usuario   @relation("correosRecibidos", fields: [destinatarioId], references: [id])
+  estiloFirma          EstiloFirma? @relation(fields: [estiloFirmaId], references: [id])
+  tema                 TemaCorreo? @relation(fields: [temaId], references: [id])
 }
 
 model DireccionBloqueada {
@@ -63,31 +62,14 @@ model DireccionFavorita {
 model TemaCorreo {
   id                 Int      @id @default(autoincrement())
   nombreTema         String
-  usuarioCreadorId   Int
-  usuarioCreador     Usuario  @relation(fields: [usuarioCreadorId], references: [id])
-}
-
-model Publicidad {
-  id                 Int      @id @default(autoincrement())
-  contenidoAnuncio   String
-  fechaMostrado      DateTime @default(now())
-  usuarioId          Int
-  usuario            Usuario  @relation(fields: [usuarioId], references: [id])
-}
-
-model PluginCorreo {
-  id                Int      @id @default(autoincrement())
-  nombrePlugin      String
-  correosAfectados  String
-  idiomasSoportados String
-  estiloFirmaId     Int
-  estiloFirma       EstiloFirma @relation(fields: [estiloFirmaId], references: [id])
+  correos            Correo[]
 }
 
 model EstiloFirma {
-  id            Int      @id @default(autoincrement())
-  nombreEstilo  String
-  fuente        String
-  correoId      Int
-  correo        Correo   @relation(fields: [correoId], references: [id])
+  id                Int      @id @default(autoincrement())
+  nombreEstilo      String
+  fuente            String
+  correos           Correo[]
 }
+
+
