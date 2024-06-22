@@ -32,6 +32,42 @@ app.post('/api/registrar', async ({ body }) => {
     }
 });
 
+// Endpoint para verificar usuario
+app.post('/api/verificar', async ({ body }) => {
+    const { correo, clave } = body;
+    try {
+        const usuario = await prisma.usuario.findUnique({
+            where: { correo },
+        });
+
+        if (!usuario || usuario.clave !== clave) {
+            return {
+                estado: 400,
+                mensaje: "Usuario no encontrado o contraseña incorrecta"
+            };
+        }
+
+        return {
+            estado: 200,
+            mensaje: "Usuario verificado",
+            usuario: {
+                id: usuario.id,
+                nombre: usuario.nombre,
+                correo: usuario.correo,
+                descripcion: usuario.descripcion,
+                fechaCreacion: usuario.fechaCreacion
+            }
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            estado: 400,
+            mensaje: "Error al verificar el usuario",
+            detalles: error.message
+        };
+    }
+});
+
 // Endpoint para bloquear un usuario
 app.post('/api/bloquear', async ({ body }) => {
     const { correo, clave, correo_bloquear } = body;
