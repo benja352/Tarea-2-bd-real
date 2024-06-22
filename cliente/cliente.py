@@ -29,36 +29,71 @@ def obtener_informacion(correo):
     response = requests.get(url)
     return response.json()
 
+def marcar_correo(correo, clave, id_correo_favorito):
+    url = f"{BASE_URL}/api/marcarcorreo"
+    payload = {
+        "correo": correo,
+        "clave": clave,
+        "id_correo_favorito": id_correo_favorito
+    }
+    response = requests.post(url, json=payload)
+    return response.json()
+
+def desmarcar_correo(correo, clave, id_correo_favorito):
+    url = f"{BASE_URL}/api/desmarcarcorreo"
+    payload = {
+        "correo": correo,
+        "clave": clave,
+        "id_correo_favorito": id_correo_favorito
+    }
+    response = requests.delete(url, json=payload)
+    return response.json()
+
 def main():
     print("Bienvenido a CommuniKen")
     while True:
         print("1. Registrar usuario")
         print("2. Bloquear usuario")
         print("3. Obtener información de usuario")
-        print("4. Salir")
-        opcion = input("Elige una opción: ")
-        
-        if opcion == "1":
+        print("4. Marcar correo como favorito")
+        print("5. Desmarcar correo como favorito")
+        print("6. Salir")
+        inicio = input("Elige una opción: ")
+
+        if inicio == "1":
             nombre = input("Nombre: ")
             correo = input("Correo: ")
             clave = input("Clave: ")
             descripcion = input("Descripción: ")
             resultado = registrar_usuario(nombre, correo, clave, descripcion)
             print("Resultado:", resultado)
-        elif opcion == "2":
-            correo = input("Tu correo: ")
-            clave = input("Tu clave: ")
+        elif inicio == "2":
+            correo = input("Correo: ")
+            clave = input("Clave: ")
             correo_bloquear = input("Correo del usuario a bloquear: ")
             resultado = bloquear_usuario(correo, clave, correo_bloquear)
             print("Resultado:", resultado)
-        elif opcion == "3":
+        elif inicio == "3":
             correo = input("Correo del usuario: ")
             resultado = obtener_informacion(correo)
             print("Información del usuario:", resultado)
-        elif opcion == "4":
+        elif inicio == "4":
+            correo = input("Tu correo: ")
+            clave = input("Tu clave: ")
+            id_correo_favorito = int(input("ID del correo a marcar como favorito: "))
+            resultado = marcar_correo(correo, clave, id_correo_favorito)
+            print("Resultado:", resultado)
+        elif inicio == "5":
+            correo = input("Tu correo: ")
+            clave = input("Tu clave: ")
+            id_correo_favorito = int(input("ID del correo a desmarcar como favorito: "))
+            resultado = desmarcar_correo(correo, clave, id_correo_favorito)
+            print("Resultado:", resultado)
+        elif inicio == "6":
             break
         else:
             print("Opción no válida")
 
 if __name__ == "__main__":
     main()
+
