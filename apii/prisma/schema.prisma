@@ -8,20 +8,50 @@ datasource db {
 }
 
 model Usuario {
-  id          Int      @id @default(autoincrement())
-  nombre      String
-  correo      String   @unique
-  clave       String
-  descripcion String?
-  correos     Correo[] 
+  id                   Int                   @id @default(autoincrement())
+  nombre               String
+  correo               String                @unique
+  clave                String
+  descripcion          String?
+  fechaCreacion        DateTime              @default(now())
+  correosEnviados      Correo[]              @relation("correosEnviados")
+  correosRecibidos     Correo[]              @relation("correosRecibidos")
+  direccionesBloqueadas DireccionBloqueada[]
+  direccionesFavoritas  DireccionFavorita[]
 }
 
 model Correo {
-  id          Int      @id @default(autoincrement())
-  remitente   String
-  destinatario String
-  asunto      String
-  mensaje     String
-  usuarioId   Int
-  usuario     Usuario  @relation(fields: [usuarioId], references: [id])
+  id                   Int       @id @default(autoincrement())
+  remitenteId          Int
+  destinatarioId       Int
+  asunto               String
+  cuerpo               String
+  fechaEnvio           DateTime  @default(now())
+  leido                Boolean   @default(false)
+  esFavorito           Boolean   @default(false)
+  colorFondo           String?
+  nombreAnimacion      String?
+  duracionAnimacion    Int?
+  contenidoAnuncio     String?
+  fechaMostradoAnuncio DateTime?
+  temaId               Int?
+  remitente            Usuario   @relation("correosEnviados", fields: [remitenteId], references: [id])
+  destinatario         Usuario   @relation("correosRecibidos", fields: [destinatarioId], references: [id])
+}
+
+model DireccionBloqueada {
+  id                 Int      @id @default(autoincrement())
+  usuarioId          Int
+  direccionBloqueada String
+  fechaBloqueo       DateTime @default(now())
+  usuario            Usuario  @relation(fields: [usuarioId], references: [id])
+}
+
+model DireccionFavorita {
+  id                 Int      @id @default(autoincrement())
+  usuarioId          Int
+  direccionFavorita  String
+  fechaAgregado      DateTime @default(now())
+  categoria          String?
+  usuario            Usuario  @relation(fields: [usuarioId], references: [id])
 }
