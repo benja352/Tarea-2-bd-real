@@ -24,9 +24,9 @@ python cliente/cliente.py
 6.5. Ahora cada vez que quiera correr el programa solo debe repetir los pasos 5 y 6.
 
 FUNCIONAMIENTO DEL PROGRAMA:
--Al iniciar el programa se abre una interfaz que le permitira al usuario registrar registrarse en el sistema
-o entrar con una cuenta ya registrada anteriormente. Si elegimos la opcion dos se nos pedira un correo y una contraseñalas
-los cuales si no estan registrados no podra iniciar sesion
+-Al iniciar el programa se abre una interfaz que le permitira al usuario registrarse en el sistema
+o entrar con una cuenta ya registrada anteriormente. Si elegimos la opcion dos se nos pedira un correo y una contraseña
+los cuales si no estan registrados no podra iniciar sesion.
 
 -Una vez iniciada sesion tenemos 7 opciones (2 mas que los requerimtos de la tarea). Agregamos la opcion de "bloquear usuario" y "desmarcar de favorito"
 ya que en la seccion 4 de la tarea (Endpoints) se nos pidio que hagamos estos Endpoints, pero en cliente nunca los usamos, asi que los agregamos en nuestro programa.
@@ -34,4 +34,4 @@ ya que en la seccion 4 de la tarea (Endpoints) se nos pidio que hagamos estos En
 Consideraciones: Dos integrantes de los 3 hicimos commit al github ya que el tercero fallo su computadora (Sebastian). Por suerte al ser hermanos el y yo, trabajamos desde un computador. 
 Ademas la carpeta apii quisimos llamarla "api" pero nos fallo el programa, consideramos que sigue todavia el formato de condicioenes de entrega. 
 
-Finalmente, tuvimos problemas para subir el commit final al Github por lo que decidimos dejar como "Main" la rama-Benjamin ya que ahi esta la tarea completada correctamente. Se agradece comprension en este ambito.
+Finalmente, tuvimos problemas para subir el commit final a la rama main de Github por lo que decidimos dejar como "Main" la rama Rama-Benjamin ya que ahi esta la tarea completada correctamente. Se agradece comprension en este ambito.
