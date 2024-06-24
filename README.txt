@@ -32,4 +32,6 @@ los cuales si no estan registrados no podra iniciar sesion
 ya que en la seccion 4 de la tarea (Endpoints) se nos pidio que hagamos estos Endpoints, pero en cliente nunca los usamos, asi que los agregamos en nuestro programa.
 
 Consideraciones: Dos integrantes de los 3 hicimos commit al github ya que el tercero fallo su computadora (Sebastian). Por suerte al ser hermanos el y yo, trabajamos desde un computador. 
-Ademas la carpeta apii quisimos llamarla "api" pero nos fallo el programa, consideramos que sigue todavia el formato de condicioenes de entrega.
+Ademas la carpeta apii quisimos llamarla "api" pero nos fallo el programa, consideramos que sigue todavia el formato de condicioenes de entrega. 
+
+Finalmente, tuvimos problemas para subir el commit final al Github por lo que decidimos dejar como "Main" la rama-Benjamin ya que ahi esta la tarea completada correctamente. Se agradece comprension en este ambito.
